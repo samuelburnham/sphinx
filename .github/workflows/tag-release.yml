@@ -11,7 +11,7 @@ jobs:
   tag-bump:
     if: |
       github.event.pull_request.merged == true &&
-      ((github.event.pull_request.head.ref == 'version-bump') || startsWith(github.event.pull_request.head.ref, 'hotfix/'))
+      (github.event.pull_request.head.ref == 'version-bump') || startsWith(github.event.pull_request.head.ref, 'patch/')
     runs-on: ubuntu-latest
     steps:
       - name: Git config

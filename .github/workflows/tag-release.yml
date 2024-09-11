@@ -6,39 +6,42 @@ on:
     types: [ closed ]
     branches:
       - release/*
+      - test/*
 
 jobs:
   debug:
-    runs-on: ubuntu-lates
+    runs-on: ubuntu-latest
     steps:
+      - name: Check base ref
+        run: echo "${{ github.event.pull_request.base.ref }}"
       - name: Check head ref
         run: echo "${{ github.event.pull_request.head.ref }}"
 
-  tag-bump:
-    if: |
-      github.event.pull_request.merged == true &&
-      (github.event.pull_request.head.ref == 'version-bump' || startsWith(github.event.pull_request.head.ref, 'patch/'))
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git config
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/checkout@v4
-        with:
-          repository: argumentcomputer/ci-workflows
-          path: ci-workflows
-          ref: release-workflow
-     # - uses: tibdex/github-app-token@v2
-     #   id: generate-token
-     #   with:
-     #     app_id: ${{ secrets.TOKEN_APP_ID }}
-     #     private_key: ${{ secrets.TOKEN_APP_PRIVATE_KEY }}
-      - name: Publish release
-        uses: ./ci-workflows/.github/actions/tag-release
-        #with:
-        #  token: ${{ secrets.REPO_TOKEN }}
+  #tag-bump:
+  #  if: |
+  #    github.event.pull_request.merged == true &&
+  #    (github.event.pull_request.head.ref == 'version-bump' || startsWith(github.event.pull_request.head.ref, 'patch/'))
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Git config
+  #      run: |
+  #        git config --global user.name "github-actions[bot]"
+  #        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+  #    - name: Checkout code
+  #      uses: actions/checkout@v4
+  #      with:
+  #        fetch-depth: 0
+  #    - uses: actions/checkout@v4
+  #      with:
+  #        repository: argumentcomputer/ci-workflows
+  #        path: ci-workflows
+  #        ref: release-workflow
+  #   # - uses: tibdex/github-app-token@v2
+  #   #   id: generate-token
+  #   #   with:
+  #   #     app_id: ${{ secrets.TOKEN_APP_ID }}
+  #   #     private_key: ${{ secrets.TOKEN_APP_PRIVATE_KEY }}
+  #    - name: Publish release
+  #      uses: ./ci-workflows/.github/actions/tag-release
+  #      #with:
+  #      #  token: ${{ secrets.REPO_TOKEN }}

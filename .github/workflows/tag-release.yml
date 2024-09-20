@@ -61,4 +61,4 @@ jobs:
         uses: ./ci-workflows/.github/actions/tag-release
         with:
           tag-prefix: sphinx
-          config-file: ./config.json
+          changelog-config-file: ./config.json

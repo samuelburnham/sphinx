@@ -29,7 +29,8 @@ jobs:
           ref: release-workflow
       - name: Create changelog config
         run: |
-          printf '%s\n' "{
+          cat << 'EOF' > config.json
+          {
             "template": "#{{CHANGELOG}}",
             "categories": [
               {
@@ -49,13 +50,8 @@ jobs:
                   "labels": []
               }
             ],
-            "label_extractor": [
-              {
-                "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
-                "target": "$1"
-              }
-            ],
-          }" > config.json
+          }
+          EOF
      # - uses: tibdex/github-app-token@v2
      #   id: generate-token
      #   with:

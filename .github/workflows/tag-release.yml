@@ -27,6 +27,35 @@ jobs:
           repository: argumentcomputer/ci-workflows
           path: ci-workflows
           ref: release-workflow
+      - name: Create changelog config
+        run: |
+          printf '%s\n' "{
+            "template": "#{{CHANGELOG}}",
+            "categories": [
+              {
+                  "title": "## Feature",
+                  "labels": ["feat", "feature"]
+              },
+              {
+                  "title": "## Fix",
+                  "labels": ["fix", "bug"]
+              },
+              {
+                  "title": "## 🤖 CI",
+                  "labels": ["automated-issue", "ci"]
+              },
+              {
+                  "title": "## Other",
+                  "labels": []
+              }
+            ],
+            "label_extractor": [
+              {
+                "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
+                "target": "$1"
+              }
+            ],
+          }" > config.json
      # - uses: tibdex/github-app-token@v2
      #   id: generate-token
      #   with:
@@ -36,3 +65,4 @@ jobs:
         uses: ./ci-workflows/.github/actions/tag-release
         with:
           tag-prefix: sphinx
+          config-file: ./config.json

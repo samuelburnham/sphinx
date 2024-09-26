@@ -70,8 +70,8 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             RELEASE_BRANCH=${{ github.event.pull_request.base.ref }}
             # Get tag and version from PR title
-            TAG=$(echo "${{ github.event.pull_request.title }}" | awk '/Release/ {print $NF}' | tr -d '`')
-            VERSION="${TAG#*-}"
+            TAG=$(echo '${{ github.event.pull_request.title }}' | awk '/Release/ {print $NF}' | tr -d '`')
+            VERSION="${TAG#*-v}"
           else
             RELEASE_BRANCH=${{ inputs.release-branch }}
             VERSION=${{ inputs.version }}

@@ -87,7 +87,7 @@ jobs:
       - name: Publish release
         uses: ./ci-workflows/.github/actions/tag-release
         with:
-          release_branch: ${{ env.RELEASE_BRANCH }}
+          release-branch: ${{ env.RELEASE_BRANCH }}
           version: ${{ env.VERSION }}
           tag-prefix: sphinx
           changelog-config-file: ./config.json
